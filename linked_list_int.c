@@ -43,7 +43,7 @@ int lli_get(linked_list_int lli, int index){
     return 0;
   int current_index=0;
   struct _lli_ *current_node=lli->first_node;
-  while (current_index<index && 
+  while (current_index<index &&
          current_node !=NULL){
     current_index++;
     current_node = current_node->next;
@@ -51,7 +51,7 @@ int lli_get(linked_list_int lli, int index){
   if (current_node==NULL){
     return 0;
   }
-  return current_node->value;;
+  return current_node->value;
 }
 
 /* Adds element 'i' to the end of the linked list */
@@ -61,7 +61,7 @@ unsigned int lli_push_back(linked_list_int lli, int i){
   struct _lli_ *new_node = (struct _lli_*) malloc(sizeof(struct _lli_));
   new_node->value=i;
   new_node->next=NULL;
-  if (lli->first_node == NULL){ 
+  if (lli->first_node == NULL){
     lli->first_node = new_node;
   } else {
     struct _lli_ *current_node = lli->first_node;
@@ -79,12 +79,14 @@ unsigned int lli_push_back(linked_list_int lli, int i){
 unsigned int lli_pop_back(linked_list_int lli){
   if (!lli_check_type(lli))
     return 0;
+
+
   return 0;
 }
 
 
-/* Gets number of int elements stored in 'lli' 
- * TODO: Optimize size with a variable that stores 
+/* Gets number of int elements stored in 'lli'
+ * TODO: Optimize size with a variable that stores
  * the number of nodes in the list. Must update all
  * functions that change number of nodes.
  *
@@ -136,11 +138,22 @@ double lli_percent_occuped(linked_list_int lli){
   return 1.0;
 }
 
-/* Release memory used by the struct and invalidate it. 
+/* Release memory used by the struct and invalidate it.
  *
  * TODO
  */
 void lli_destroy(linked_list_int lli){
   /* TODO: Apagar todos os nós da lista */
-  lli->magic=0;
-}
+
+    struct _lli_ *current_node = lli->first_node;
+    struct _lli_ *aux;
+    while (current_node!=NULL){
+      aux = current_node;
+      current_node = current_node->next;
+
+      aux->value = 0;
+
+      free(aux);
+    }
+    lli->magic = 0;
+  }

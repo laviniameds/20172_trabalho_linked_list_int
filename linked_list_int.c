@@ -12,6 +12,8 @@ struct _lli_{
 struct linked_list_int{
   struct _lli_ * first_node;
   int magic;
+  int size;
+  int capacity;
 };
 
 /* Internal functions */
@@ -31,9 +33,11 @@ int lli_check_type(linked_list_int lli){
 
 /* creates new instance of a dynamic array */
 linked_list_int lli_create(){
-  linked_list_int lli= (linked_list_int)malloc(sizeof(struct linked_list_int));
+  linked_list_int lli = (linked_list_int)malloc(sizeof(struct linked_list_int));
   lli->first_node = NULL;
   lli->magic = MAGIC;
+  lli->size = 0;
+  lli->capacity = 1;
   return lli;
 }
 
@@ -108,6 +112,18 @@ unsigned int lli_size(linked_list_int lli){
  * TODO:
 */
 int lli_find(linked_list_int lli, int element){
+  if (!lli_check_type(lli))
+    return 0;
+
+  int index = 0;
+  struct _lli_ *current_node = lli->first_node;
+  while (current_node!=NULL){
+    if(current_node->value == element)
+      return index;
+    current_node = current_node->next;
+    index++;
+  }
+
   return -1;
 }
 

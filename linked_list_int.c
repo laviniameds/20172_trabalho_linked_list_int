@@ -142,7 +142,38 @@ int lli_find(linked_list_int lli, int element){
  * TODO:
  */
 int lli_insert_at(linked_list_int lli, int index, int value){
-  return 0;
+  if (!lli_check_type(lli))
+    return -1;
+
+  if(index >= lli_size(lli))
+    return -1;
+
+  int current_index = -1;
+  struct _lli_ *current_node=lli->first_node;
+  struct _lli_ *aux;
+
+  struct _lli_ *new_node = (struct _lli_*) malloc(sizeof(struct _lli_));
+  new_node->value=value;
+
+  while (current_index<index &&
+         current_node != NULL){
+
+    current_index++;
+
+    if(current_index == index-1){
+      aux = current_node->next;
+      current_node->next = new_node;
+      new_node->next = aux;
+
+      lli->size = lli_size(lli) + 1;
+      return current_index;
+    }
+    else{
+      current_node = current_node->next;
+    }
+  }
+
+  return -1;
 }
 
 /**

@@ -13,7 +13,6 @@ struct linked_list_int{
   struct _lli_ * first_node;
   int magic;
   int size;
-  int capacity;
 };
 
 /* Internal functions */
@@ -37,7 +36,6 @@ linked_list_int lli_create(){
   lli->first_node = NULL;
   lli->magic = MAGIC;
   lli->size = 0;
-  lli->capacity = 1;
   return lli;
 }
 
@@ -73,6 +71,7 @@ unsigned int lli_push_back(linked_list_int lli, int i){
       current_node = current_node->next;
     current_node->next=new_node;
   }
+  lli->size = lli_size(lli) + 1;
   return 1;
 }
 
@@ -84,6 +83,18 @@ unsigned int lli_pop_back(linked_list_int lli){
   if (!lli_check_type(lli))
     return 0;
 
+  struct _lli_ *current_node = lli->first_node;
+  struct _lli_ *aux = lli->first_node;
+
+  int size = lli_size(lli);
+  while (current_node->next != NULL){
+    aux = current_node;
+    current_node = current_node->next;
+  }
+
+  aux->next = NULL;
+  lli->size = size-1;
+  free(current_node);
 
   return 0;
 }
@@ -98,13 +109,13 @@ unsigned int lli_pop_back(linked_list_int lli){
 unsigned int lli_size(linked_list_int lli){
   if (!lli_check_type(lli))
     return 0;
-  int size=0;
+  /*int size=0;
   struct _lli_ *current_node = lli->first_node;
   while (current_node!=NULL){
     size++;
     current_node = current_node->next;
-  }
-  return size;
+  }*/
+  return lli->size;
 }
 
 

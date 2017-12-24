@@ -180,6 +180,34 @@ int lli_insert_at(linked_list_int lli, int index, int value){
  * TODO:
  */
 int lli_remove_from(linked_list_int lli, int index){
+
+  if (!lli_check_type(lli))
+    return -1;
+
+  if(index >= lli_size(lli))
+    return -1;
+
+  int current_index = -1;
+  struct _lli_ *current_node=lli->first_node;
+  struct _lli_ *aux;
+
+  while (current_index<index &&
+         current_node != NULL){
+
+    current_index++;
+
+    if(current_index == index-1){
+      aux = current_node->next;
+      current_node->next = aux->next;
+
+      lli->size = lli_size(lli) - 1;
+      return lli_size(lli);
+    }
+    else{
+      current_node = current_node->next;
+    }
+  }
+
   return -1;
 }
 

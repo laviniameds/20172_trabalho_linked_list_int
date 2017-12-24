@@ -199,6 +199,7 @@ int lli_remove_from(linked_list_int lli, int index){
     if(current_index == index-1){
       aux = current_node->next;
       current_node->next = aux->next;
+      free(aux);
 
       lli->size = lli_size(lli) - 1;
       return lli_size(lli);

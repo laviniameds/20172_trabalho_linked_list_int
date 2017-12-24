@@ -155,7 +155,9 @@ int lli_remove_from(linked_list_int lli, int index){
 /**
  * TODO: */
 unsigned int lli_capacity(linked_list_int lli){
-  return 0;
+  if (!lli_check_type(lli))
+    return 0;
+  return lli->size;
 }
 
 
